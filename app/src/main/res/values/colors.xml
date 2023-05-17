@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="background">#282a36</color>
+    <color name="currentLine">#44475a</color>
+    <color name="foreground">#f8f8f2</color>
+    <color name="comment">#6272a4</color>
+    <color name="cyan">#8be9fd</color>
+    <color name="green">#50fa7b</color>
+    <color name="orange">#ffb86c</color>
+    <color name="pink">#ff79c6</color>
+    <color name="purple">#bd93f9</color>
+    <color name="red">#ff5555</color>
+    <color name="yellow">#f1fa8c</color>
+
+</resources>

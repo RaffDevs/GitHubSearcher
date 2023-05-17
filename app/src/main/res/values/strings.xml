@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">GitHubSearcher</string>
+    <string name="alias_app">GitHub Searcher</string>
+    <string name="edit_hint_username">Nome do usuário</string>
+    <string name="button_search_text">Buscar</string>
+</resources>
