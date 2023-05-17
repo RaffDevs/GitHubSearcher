@@ -1,19 +1,48 @@
 package com.example.githubsearcher.app.presentation.adapter
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubsearcher.R
 import com.example.githubsearcher.app.domain.model.Repository
+import com.example.githubsearcher.app.presentation.fragments.WebViewBottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class RepositoryAdapter() :
+class RepositoryAdapter(private val context: Context) :
     RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
     private var listRepository: List<Repository> = emptyList()
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val cardView: CardView = view.findViewById(R.id.card_item)
         val textView: TextView = view.findViewById(R.id.text_repository_name)
+        val shareIcon: ImageView = view.findViewById(R.id.image_view_share_button)
+
+        init {
+            view.setOnClickListener {
+                val item = listRepository[adapterPosition]
+                showWebViewDialog(item.url)
+            }
+        }
+
+        private fun showWebViewDialog(url: String) {
+            val bottomSheetDialog = WebViewBottomSheetDialog(url)
+            bottomSheetDialog.show(
+                (itemView.context as AppCompatActivity).supportFragmentManager,
+                bottomSheetDialog.tag
+            )
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,9 +55,21 @@ class RepositoryAdapter() :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentRepository = listRepository[position]
         holder.textView.text = currentRepository.name
+        holder.shareIcon.setOnClickListener {
+            shareURL(currentRepository.url, holder.itemView.context)
+        }
+
     }
 
     override fun getItemCount() = listRepository.size
+
+    private fun shareURL(url: String, context: Context) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, url)
+        context.startActivity(Intent.createChooser(intent, "Compartilhar Via"))
+    }
+
 
     fun updateRepositories(repositories: List<Repository>) {
         listRepository = repositories

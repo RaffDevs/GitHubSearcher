@@ -37,7 +37,6 @@ class MainViewModel: ViewModel() {
             }
 
             override fun onError(error: Error) {
-                TODO("Implementar validação de array vazio.")
                _requestState.value = RequestState.Error(error.localizedMessage)
             }
 

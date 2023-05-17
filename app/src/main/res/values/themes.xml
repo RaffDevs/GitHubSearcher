@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.GitHubSearcher" parent="Base.Theme.GitHubSearcher" />
+
+    <style name="FullScreenBottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 </resources>

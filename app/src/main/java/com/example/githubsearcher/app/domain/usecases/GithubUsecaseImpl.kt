@@ -20,10 +20,15 @@ class GithubUsecaseImpl: GithubUsecase {
             ) {
                 if (response.isSuccessful) {
                     response.body()?.let { listRepositoryEntity ->
-                        val repositories = listRepositoryEntity.map {
-                            RepositoryHelper.transformEntityToRepository(it)
+                        if (listRepositoryEntity.isNotEmpty()) {
+                            val repositories = listRepositoryEntity.map {
+                                RepositoryHelper.transformEntityToRepository(it)
+                            }
+                            callback.onSuccess(repositories)
+                        } else {
+                            callback.onError(Error("No user found..."))
                         }
-                        callback.onSuccess(repositories)
+
                     }
 
                 } else {
