@@ -3,4 +3,12 @@
     <string name="alias_app">GitHub Searcher</string>
     <string name="edit_hint_username">Nome do usuário</string>
     <string name="button_search_text">Buscar</string>
+    <string name="server_error">
+        Parece que o servidor não respondeu como esperado…
+        Por favor, tente outro usuário ou tente novamente mais tarde!
+    </string>
+    <string name="unexpected_error">Um erro inesperado ocorreu!</string>
+    <string name="erro_dialog_title">Desculpe por isso…</string>
+    <string name="share_title">Compartilhar Via</string>
+    <string name="no_user_error">No user found…</string>
 </resources>

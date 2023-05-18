@@ -1,7 +1,6 @@
 package com.example.githubsearcher.app.domain.usecases
 
 import com.example.githubsearcher.app.domain.callbacks.GithubUsecaseCallback
-import com.example.githubsearcher.app.domain.model.Repository
 import com.example.githubsearcher.app.domain.model.helpers.RepositoryHelper
 import com.example.githubsearcher.app.repository.remote.GithubRepositoryImpl
 import com.example.githubsearcher.app.repository.remote.entities.RepositoryEntity
@@ -26,7 +25,7 @@ class GithubUsecaseImpl: GithubUsecase {
                             }
                             callback.onSuccess(repositories)
                         } else {
-                            callback.onError(Error("No user found..."))
+                            callback.onError(Error("No user found…"))
                         }
 
                     }

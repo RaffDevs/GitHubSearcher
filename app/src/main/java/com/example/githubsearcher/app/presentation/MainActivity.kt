@@ -1,12 +1,10 @@
 package com.example.githubsearcher.app.presentation
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -15,9 +13,11 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubsearcher.R
 import com.example.githubsearcher.app.presentation.adapter.RepositoryAdapter
 import com.example.githubsearcher.databinding.ActivityMainBinding
 import com.example.githubsearcher.infra.cache.UserPreferencesImpl
@@ -43,13 +43,14 @@ class MainActivity : AppCompatActivity() {
         editSearchField = binding.editUsername
         searchButton = binding.buttonSearch
         recyclerView = binding.recyclerViewRepository
-        adapter = RepositoryAdapter(this)
+        adapter = RepositoryAdapter()
         recyclerView.adapter = adapter
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         userPreferences = UserPreferencesImpl(this)
 
         setupListeners()
+        setSugestions()
 
     }
 
@@ -82,14 +83,11 @@ class MainActivity : AppCompatActivity() {
             progressBar.visibility = View.GONE
             if (state is RequestState.Error) {
                 state.error?.let {
-                    val description = "Parece que o servidor não respondeu como esperado... " +
-                            "Por favor, tente outro usuário ou tente novamente mais tarde!"
-                    showErrorDialog(it, description)
+                    showErrorDialog(it, getString(R.string.server_error))
                 }
             } else if (state is RequestState.Failure) {
                 state.throwable.message?.let {
-                    val description = "Um erro inesperado ocorreu!"
-                    showErrorDialog(it, description)
+                    showErrorDialog(it, getString(R.string.unexpected_error))
                 }
             } else {
                 recyclerView.visibility = View.VISIBLE
@@ -99,6 +97,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.username.observe(this) { username ->
             textUsername.isVisible = true
             textUsername.text = username
+        }
+    }
+
+    private fun setSugestions() {
+        userPreferences.getUser()?.let {
+            val adapter =
+                ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, it)
+            editSearchField.setAdapter(adapter)
         }
     }
 
@@ -116,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showErrorDialog(message: String, description: String) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Desculpe por isso...")
+        builder.setTitle(getString(R.string.erro_dialog_title))
         builder.setMessage(description)
         builder.setPositiveButton("OK") { dialog, _ ->
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()

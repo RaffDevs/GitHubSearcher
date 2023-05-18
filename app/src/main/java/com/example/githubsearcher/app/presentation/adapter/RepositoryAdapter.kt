@@ -1,30 +1,23 @@
 package com.example.githubsearcher.app.presentation.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubsearcher.R
 import com.example.githubsearcher.app.domain.model.Repository
 import com.example.githubsearcher.app.presentation.fragments.WebViewBottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class RepositoryAdapter(private val context: Context) :
+class RepositoryAdapter() :
     RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
     private var listRepository: List<Repository> = emptyList()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val cardView: CardView = view.findViewById(R.id.card_item)
         val textView: TextView = view.findViewById(R.id.text_repository_name)
         val shareIcon: ImageView = view.findViewById(R.id.image_view_share_button)
 
@@ -67,7 +60,7 @@ class RepositoryAdapter(private val context: Context) :
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_TEXT, url)
-        context.startActivity(Intent.createChooser(intent, "Compartilhar Via"))
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_title)))
     }
 
 
